@@ -6,31 +6,53 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Welcome to Home Page</h1>
-  <p>This is a simple page with an image, text, and a table.</p>
 
-  <!-- Simple Image -->
-  <img src="https://via.placeholder.com/300x150.png?text=Sample+Image" alt="Sample Image">
+  <!-- Navigation Menu -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="index.html">Hello World</a></li>
+      <li><a href="home.html" class="active">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
 
-  <!-- Simple Table -->
-  <table border="1" cellpadding="5" style="margin-top: 20px; border-collapse: collapse;">
-    <tr>
-      <th>Name</th>
-      <th>Age</th>
-      <th>City</th>
-    </tr>
-    <tr>
-      <td>John</td>
-      <td>25</td>
-      <td>New York</td>
-    </tr>
-    <tr>
-      <td>Jane</td>
-      <td>28</td>
-      <td>London</td>
-    </tr>
-  </table>
+  <div class="container">
+    <h1>Welcome to Home Page</h1>
+    <p>This is a modern page with an image, text, and a table.</p>
 
-  <p style="margin-top:20px;"><a href="index.html">Back to Hello World Page</a></p>
+    <!-- Image -->
+    <img src="https://via.placeholder.com/400x200.png?text=Sample+Image" alt="Sample Image">
+
+    <!-- Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>City</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>John</td>
+          <td>25</td>
+          <td>New York</td>
+        </tr>
+        <tr>
+          <td>Jane</td>
+          <td>28</td>
+          <td>London</td>
+        </tr>
+        <tr>
+          <td>Mike</td>
+          <td>30</td>
+          <td>Tokyo</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
 </body>
 </html>
