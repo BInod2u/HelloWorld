@@ -1,215 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Offline Site ID Search</title>
-<style>
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 30px;
-    background: #f4f6f9;
-    color: #333;
-}
-
-h2 {
-    text-align: center;
-    color: #0078D7;
-    margin-bottom: 20px;
-    font-size: 1.8rem;
-}
-
-label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 8px;
-    color: #444;
-}
-
-input {
-    padding: 12px;
-    font-size: 16px;
-    width: 350px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    outline: none;
-    background: #fff;
-    transition: 0.3s;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-input:focus {
-    border-color: #0078D7;
-    box-shadow: 0 0 5px rgba(0,120,215,0.5);
-}
-
-#result {
-    margin-top: 25px;
-    overflow-x: auto;
-}
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-th, td {
-    padding: 12px 10px;
-    text-align: left;
-    border: 1px solid #000;
-}
-
-th {
-    background: #0078D7;
-    color: white;
-    position: sticky;
-    top: 0;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-tr:hover {
-    background-color: #e6f0ff;
-    cursor: pointer;
-}
-
-.copy-btn {
-    margin-top: 15px;
-    padding: 10px 15px;
-    background-color: #0078D7;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-}
-.copy-btn:hover {
-    background-color: #005a9e;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Fun & Interactive Page</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Site IP Search</h2>
-<label for="siteId">Enter Site ID or IP:</label>
-<input type="text" id="siteId" placeholder="Type Site ID or any value here">
+  <!-- Navigation Menu -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="home.html">Home Page</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
 
-<br>
-<button class="copy-btn" onclick="copyTable()">Copy Table</button>
-<button class="copy-btn" onclick="exportToExcel()">Export to Excel</button>
+  <!-- Hero Section -->
+  <header class="hero">
+    <h1>Welcome to Your Fun Page!</h1>
+    <p>News, Surprising Facts, and Quizzes for you!</p>
+  </header>
 
-<div id="result"></div>
+  <!-- News Section -->
+  <section class="news-section">
+    <h2>Latest News</h2>
+    <ul>
+      <li>🚀 SpaceX launched another successful mission today!</li>
+      <li>💡 Scientists discover a new material stronger than steel.</li>
+      <li>🌎 Global initiative announced to plant 1 billion trees by 2030.</li>
+    </ul>
+  </section>
 
-<!-- SheetJS library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <!-- Fun Facts Section -->
+  <section class="facts-section">
+    <h2>Surprising Facts</h2>
+    <ul>
+      <li>🐙 Octopuses have three hearts and blue blood.</li>
+      <li>🍫 Chocolate was once used as currency in ancient civilizations.</li>
+      <li>🦘 Kangaroos can’t walk backwards.</li>
+    </ul>
+  </section>
 
-<script>
-// ==== DATA SECTION ====
-const siteData = {
-"BAG001":["ICC210","CX600-X1-M4","10.99.4.121","10.99.4.122","10.70.8.19 (NetEco)","0/2/2"],
-"BAG002":["Eltek","CX600-X1-M4","10.99.4.41","10.99.4.42","10.70.8.19 (NetEco)","0/2/2"],
-"BAG002_BTS":["","CX600-X1-M4","10.99.15.249","10.99.15.250","10.70.8.13 (Eltek)","0/4/0"]
-// ---- trimmed for demo, add rest of your data here ----
-};
+  <!-- Quiz Section -->
+  <section class="quiz-section">
+    <h2>Mini Quiz</h2>
+    <p>Which planet is known as the Red Planet?</p>
+    <button onclick="checkAnswer('Mars')">Mars</button>
+    <button onclick="checkAnswer('Venus')">Venus</button>
+    <button onclick="checkAnswer('Jupiter')">Jupiter</button>
+    <p id="quiz-result" style="margin-top: 10px; font-weight:bold;"></p>
+  </section>
 
-// ==== HEADERS ====
-const headers = ["SiteID", "Power Plant", "ATN Device", "Gateway IP", "Power Plant IP", "Server IP", "Port"];
-const siteArray = Object.keys(siteData).map(id => [id, ...siteData[id]]);
-const resultBox = document.getElementById('result');
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 My Fun Page. All rights reserved.</p>
+  </footer>
 
-// ==== RENDER SAFE TABLE ====
-function renderTable(filter = "") {
-    const f = filter.trim().toUpperCase();
-    const rowsHtml = siteArray
-        .filter(row => row.some(cell => {
-            if (cell === undefined || cell === null) return false;
-            return String(cell).toUpperCase().includes(f);
-        }))
-        .map(row => {
-            return "<tr>" + row.map((cell, idx) => {
-                cell = cell ?? "";
-
-                if (headers[idx] === "SiteID") {
-                    return `<td onclick="copyRow(this)">${cell}</td>`;
-                }
-
-                if (headers[idx] === "Power Plant IP") {
-                    let clean = String(cell).split(" ")[0];
-                    if (clean.startsWith("10.99")) {
-                        return `<td><a href="http://${clean}" target="_blank">${cell}</a></td>`;
-                    }
-                }
-
-                return `<td>${cell}</td>`;
-            }).join("") + "</tr>";
-        }).join("");
-
-    resultBox.innerHTML = `
-        <table id="siteTable">
-            <tr>${headers.map(h => `<th>${h}</th>`).join("")}</tr>
-            ${rowsHtml}
-        </table>`;
-}
-
-// ==== MODERN + FALLBACK CLIPBOARD ====
-async function copyToClipboard(text) {
-    try {
-        await navigator.clipboard.writeText(text);
-        alert("Copied to clipboard");
-        return;
-    } catch (err) {
-        // fallback
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        textarea.style.opacity = 0;
-        document.body.appendChild(textarea);
-        textarea.select();
-
-        try {
-            document.execCommand("copy");
-            alert("Copied to clipboard");
-        } catch {
-            alert("Copy failed");
-        }
-        document.body.removeChild(textarea);
+  <script>
+    function checkAnswer(answer) {
+      const result = document.getElementById('quiz-result');
+      if(answer === 'Mars') {
+        result.textContent = '✅ Correct! Mars is the Red Planet.';
+        result.style.color = 'green';
+      } else {
+        result.textContent = '❌ Wrong! Try again.';
+        result.style.color = 'red';
+      }
     }
-}
-
-// ==== COPY FULL TABLE ====
-function copyTable() {
-    const table = document.getElementById("siteTable");
-    if (!table) { alert("Nothing to copy"); return; }
-    copyToClipboard(table.innerText);
-}
-
-// ==== COPY SINGLE ROW ====
-function copyRow(cell) {
-    const row = cell.parentElement;
-    const text = Array.from(row.cells).map(td => td.innerText).join("\t");
-    copyToClipboard(text);
-}
-
-// ==== EXPORT EXCEL ====
-function exportToExcel() {
-    const table = document.getElementById("siteTable");
-    if (!table) { alert("No data to export"); return; }
-    try {
-        const wb = XLSX.utils.table_to_book(table, { sheet: "Sites" });
-        XLSX.writeFile(wb, "Site_Data.xlsx");
-    } catch (e) {
-        alert("Excel export failed");
-    }
-}
-
-// ==== INITIAL ====
-renderTable();
-document.getElementById('siteId').addEventListener('input', e => renderTable(e.target.value));
-</script>
+  </script>
 
 </body>
 </html>
