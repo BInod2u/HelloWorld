@@ -8,8 +8,17 @@
 <body>
   <h1>Hello World!</h1>
   <p>Welcome to my first GitHub-hosted webpage.</p>
-  <button id="clickButton">Click Me</button>
 
+
+  <button id="clickButton">Go to Home Page</button>
+
+<script>
+  document.getElementById('clickButton').addEventListener('click', () => {
+    window.location.href = 'home.html';
+  });
+</script>
+
+  
   <script src="script.js"></script>
 </body>
 </html>
